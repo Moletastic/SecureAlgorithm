@@ -1,0 +1,1 @@
+gcc main.c secure.c utils/matrix.c -o program.exe
