@@ -9,35 +9,35 @@ int main(){
     
     WORD defecto = getInfo();
     HANDLE hConsole = getConsoleData();
-    /* int procesos = 5;
-    int recursos = 3;
-    short i,j;
-    int input_assign[5][3] = {
-        {1,0,0}, 
-        {0,1,2}, 
-        {0,0,3}, 
-        {1,0,3}, 
-        {1,1,0}
-    };
+    // int procesos = 5;
+    // int recursos = 3;
+    // short i,j;
+    // int input_assign[5][3] = {
+    //     {1,0,0}, 
+    //     {0,1,2}, 
+    //     {0,0,3}, 
+    //     {1,0,3}, 
+    //     {1,1,0}
+    // };
 
-    int input_max[5][3] = {
-        {4,4,4}, 
-        {1,4,6}, 
-        {3,2,5}, 
-        {4,4,8}, 
-        {5,1,10}
-    };
+    // int input_max[5][3] = {
+    //     {4,4,4}, 
+    //     {1,4,6}, 
+    //     {3,2,5}, 
+    //     {4,4,8}, 
+    //     {5,1,10}
+    // };
 
-    int input_required[5][3] = {
-        {3,4,4},
-        {1,3,4},
-        {3,2,2},
-        {3,4,5},
-        {4,0,10}
-    };
+    // int input_required[5][3] = {
+    //     {3,4,4},
+    //     {1,3,4},
+    //     {3,2,2},
+    //     {3,4,5},
+    //     {4,0,10}
+    // };
 
-    bool input_solved[5] = {false, false, false, false, false};
-    int input_init_memo[3] = {3,3,2}; */
+    // bool input_solved[5] = {false, false, false, false, false};
+    // int input_init_memo[3] = {3,3,2};
 
     int procesos = 5;
     int recursos = 3;
@@ -102,7 +102,11 @@ int main(){
         table->memo[i] = input_init_memo[i];
     }
 
-    // Inicializaciones /
+    // Muestra de los procesos
+    // showTaskTable(table, -99);
+
+
+    // Inicio Algoritmo /
     SecureAlgorithm(table);
     setColor(hConsole, defecto);
     return 0;

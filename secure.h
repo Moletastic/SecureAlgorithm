@@ -13,6 +13,9 @@ typedef struct TaskTable {
     int* memo; 
 } TaskTable;
 
+
+void showTaskTable(TaskTable* table, int n, bool intermedio);
+void showResources(TaskTable* TaskTable, int index, bool procedimiento);
 void checkSolvedProcesses(TaskTable* taskTable);
 int getNextTaskIndex(TaskTable* table);
 bool checkSolved(bool* solved, int length);
