@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "secure.h"
 #include "utils/matrix.h"
+#include "utils/colors.h"
 #include <stdbool.h>
 
 void checkSolvedProcesses(TaskTable* taskTable) {
@@ -56,28 +57,39 @@ bool checkSolved(bool* solved, int length){
 
 void SecureAlgorithm(TaskTable* table){
     short i,j, index;
+    WORD defecto = getInfo();
+    HANDLE hConsole = getConsoleData();
+
     while(checkSolved(table->solved, table->n_process) == false){
-        index = getNextTaskIndex(table);
+        index = getNextTaskIndex(table); // index = -1 ---> No se halló un proceso válido
         if(index == -1){break;}
+        setColor(hConsole, WHITE);
         printf("\nProceso actual -> %d", index);
+        setColor(hConsole, LIGHTRED);
         printf("\nAsignando memoria necesitada");
         printf("\nMemoria Actual: ");
         for(i = 0; i < table->n_resources; i++){
             table->memo[i] -= table->required[index][i];
             printf("%d ", table->memo[i]);
         }
+        setColor(hConsole, LIGHTGREEN);
         printf("\nRecuperando memoria");
         printf("\nMemoria Actual: ");
         for(i = 0; i < table->n_resources; i++){
             table->memo[i] += table->max[index][i];
             printf("%d ", table->memo[i]);
         }
-        printf("\n");
+        setColor(hConsole, WHITE);
+        printf("\nProceso %d Finalizado ", index);
+        setColor(hConsole, LIGHTGREEN);
+        printf("\u2713 \n");
         table->solved[index] = true;
     }
     if(index == -1){
+        setColor(hConsole, LIGHTRED);
         printf("\nLas tareas no pudieron ser resueltas");
     } else {
-        printf("\nTareas resueltas");
+        setColor(hConsole, LIGHTGREEN);
+        printf("\nTareas resueltas \u2713");
     }
 }

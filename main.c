@@ -3,9 +3,12 @@
 #include <stdbool.h>
 #include "secure.h"
 #include "utils/matrix.h"
+#include "utils/colors.h"
 
 int main(){
     
+    WORD defecto = getInfo();
+    HANDLE hConsole = getConsoleData();
     /* int procesos = 5;
     int recursos = 3;
     short i,j;
@@ -63,7 +66,7 @@ int main(){
         {4,3,1}
     };
 
-    bool input_solved[5] = {false, false, false, false, false};
+    bool input_solved[5] = {false, true, false, false, false};
     int input_init_memo[3] = {3,3,2};
 
     // Inicializaciones /
@@ -100,8 +103,8 @@ int main(){
     }
 
     // Inicializaciones /
-
     SecureAlgorithm(table);
+    setColor(hConsole, defecto);
     return 0;
 }
 

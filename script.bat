@@ -1,1 +1,1 @@
-gcc main.c secure.c utils/matrix.c -o program.exe
+gcc -std=c99 main.c secure.c utils/matrix.c utils/colors.c -o program.exe
