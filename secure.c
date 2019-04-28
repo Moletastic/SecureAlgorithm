@@ -210,3 +210,164 @@ void SecureAlgorithm(TaskTable* table){
         algorithmResult(true);
     }
 }
+
+TaskTable* initTaskTable(short process, short resources, int** assign, int** max, int* init_memo){
+    short i,j;
+    TaskTable* table = malloc(sizeof(TaskTable));
+    table->n_process = process;
+    table->n_resources = resources; 
+    table->assign = (int**)malloc(process * sizeof(int*));
+    table->max = (int**)malloc(process * sizeof(int*));
+    table->required = (int**)malloc(process * sizeof(int*));
+    table->solved = (bool*)malloc(process * sizeof(bool));
+    table->init_memo = (int*)malloc(resources* sizeof(int));
+    table->memo = (int*)malloc(resources* sizeof(int));
+
+    for(i = 0; i < process; i++){
+        table->assign[i] = (int*)malloc(resources* sizeof(int));
+        table->max[i] = (int*)malloc(resources* sizeof(int));
+        table->required[i] = (int*)malloc(resources* sizeof(int));
+    }
+
+    for(i = 0; i < process; i++){
+        for(j = 0; j < resources; j++){
+            table->assign[i][j] = assign[i][j];
+            table->max[i][j] = max[i][j];
+            table->required[i][j] = table->max[i][j] - table->assign[i][j];
+        }
+    }
+    for(i = 0; i < process; i++){
+        table->solved[i] = false;
+    }
+
+    for(i = 0; i < resources; i++){
+        table->init_memo[i] = init_memo[i];
+        table->memo[i] = init_memo[i];
+    }
+    return table;
+}
+
+void FileToTaskTable(TaskTable* table, char file[]) {
+
+    short i, j;
+    FILE *f = fopen(file, "r");
+    char string[MAX_DIMENSION];
+
+    char *ptr;
+
+    short processes;
+    short resources;
+    int init_memo[MAX_DIMENSION];
+    int assign_resources[MAX_DIMENSION][MAX_DIMENSION];
+    int max_resources[MAX_DIMENSION][MAX_DIMENSION];
+    char delim[] = ";";
+
+    if(f == NULL) {
+        printf("No se puede abrir el archivo ...");
+        return;
+    }
+
+    if(fgets(string, MAX_DIMENSION, f) != NULL) {
+        ptr = strtok(string, delim);
+        processes = atoi(ptr);
+        if(processes < 1 || processes > 10){
+            printf("No se puede abrir el archivo ...");
+            return;
+        } 
+    }
+    else {
+        printf("No se puede abrir el archivo ...");
+        return;
+    }
+
+    if(fgets(string, MAX_DIMENSION, f) != NULL) {
+        ptr = strtok(string, delim);
+        resources = atoi(ptr);
+        if(resources < 1 || resources > 10){
+            printf("No se puede abrir el archivo ...");
+            return;
+        } 
+    }
+    else {
+        printf("No se puede abrir el archivo ...");
+        return;
+    }
+
+    if(fgets(string, MAX_DIMENSION, f) != NULL) {
+        ptr = strtok(string, delim);
+        init_memo[0] = atoi(ptr);
+        if(init_memo[0] < 0){
+            printf("No se puede abrir el archivo ...");
+            return;
+        }
+        for(i = 1; i < resources; i++) {
+            ptr = strtok(NULL, delim);
+            init_memo[i] = atoi(ptr);
+        }
+    }
+    else {
+        printf("No se puede abrir el archivo ...");
+        return;
+    }
+
+    for(int i = 0; i < processes; i++) {
+        if(fgets(string, MAX_DIMENSION, f) != NULL) {
+            ptr = strtok(string, delim);
+            assign_resources[i][0] = atoi(ptr);
+            if(assign_resources[i][0] < 0){
+                printf("No se puede abrir el archivo ...");
+                return;
+            }
+            for(j = 1; j < resources; j++) {
+                ptr = strtok(NULL, delim);
+                assign_resources[i][j] = atoi(ptr);
+            }
+            ptr = strtok(NULL, delim);
+            max_resources[i][0] = atoi(ptr);        
+            if(max_resources[i][0] < 0){
+                printf("No se puede abrir el archivo ...");
+                return;
+            }
+            for(j = 1; j < resources; j++) {
+                ptr = strtok(NULL, delim);
+                max_resources[i][j] = atoi(ptr);
+            }
+        }
+        else {
+            printf("No se puede abrir el archivo ...");
+            return;
+        }
+    } 
+
+    table->n_process = processes;
+    table->n_resources = resources; 
+    table->assign = (int**)malloc(processes * sizeof(int*));
+    table->max = (int**)malloc(processes * sizeof(int*));
+    table->required = (int**)malloc(processes * sizeof(int*));
+    table->solved = (bool*)malloc(processes * sizeof(bool));
+    table->init_memo = (int*)malloc(resources* sizeof(int));
+    table->memo = (int*)malloc(resources* sizeof(int));
+
+    for(i = 0; i < processes; i++){
+        table->assign[i] = (int*)malloc(resources* sizeof(int));
+        table->max[i] = (int*)malloc(resources* sizeof(int));
+        table->required[i] = (int*)malloc(resources* sizeof(int));
+    }
+
+    for(i = 0; i < processes; i++){
+        for(j = 0; j < resources; j++){
+            table->assign[i][j] = assign_resources[i][j];
+            table->max[i][j] = max_resources[i][j];
+            table->required[i][j] = table->max[i][j] - table->assign[i][j];
+        }
+    }
+    for(i = 0; i < processes; i++){
+        table->solved[i] = false;
+    }
+
+    for(i = 0; i < resources; i++){
+        table->init_memo[i] = init_memo[i];
+        table->memo[i] = init_memo[i];
+    }
+
+}

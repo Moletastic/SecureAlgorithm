@@ -1,5 +1,6 @@
 #ifndef SECURE_H_ 
 #define SECURE_H_
+#define MAX_DIMENSION 100
 #include <stdbool.h>
 
 typedef struct TaskTable {
@@ -20,5 +21,6 @@ void checkSolvedProcesses(TaskTable* taskTable);
 int getNextTaskIndex(TaskTable* table);
 bool checkSolved(bool* solved, int length);
 void SecureAlgorithm(TaskTable* table);
-
+TaskTable* initTaskTable(short process, short resources, int** assign, int** max, int* init_memo);
+void FileToTaskTable(TaskTable* table, char file[]); 
 #endif // SECURE_H_
